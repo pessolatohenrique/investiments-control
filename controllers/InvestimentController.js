@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-
+const { InvestimentFactory } = require("../factories");
 const { Author } = require("../models");
 
 class InvestimentController {
@@ -12,19 +12,22 @@ class InvestimentController {
     }
   }
 
+  static async prepareValidation(req, res, next) {
+    const factory = new InvestimentFactory();
+    const createdInvestiment = factory.create(req.body.type);
+    await createdInvestiment.validate(req);
+  }
+
   static async store(req, res, next) {
     try {
+      await InvestimentController.prepareValidation(req);
+
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
 
       return res.status(204).send();
-
-      //   const author = new Author({ name, location });
-      //   author.save((error) => console.log(error));
-
-      //   return res.status(201).json(author);
     } catch (error) {
       return next(error);
     }

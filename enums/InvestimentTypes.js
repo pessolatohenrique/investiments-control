@@ -1,7 +1,5 @@
-const {
-  CheckingAccountValidator,
-  EmergencyReserveValidator,
-} = require("../middlewares");
+const CheckingAccountValidator = require("../middlewares/CheckingAccountValidator");
+const EmergencyReserveValidator = require("../middlewares/EmergencyReserveValidator");
 
 module.exports = {
   CHECKING_ACCOUNT: CheckingAccountValidator,

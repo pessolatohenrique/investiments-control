@@ -13,6 +13,11 @@ app.listen(3000, () => {
   console.log("Example from dotenv: ", process.env.DB_USER);
 });
 
+app.use(async (error, req, res, next) => {
+  res.status(error.getStatusCode()).json(error);
+  return next();
+});
+
 DatabaseConnection.configure();
 routes(app);
 

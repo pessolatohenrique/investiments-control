@@ -1,4 +1,6 @@
 const { InvestimentTypes } = require("../enums");
+const { InvalidFactory } = require("../utils/Errors");
+
 /**
  * @constructor
  * @abstract
@@ -9,7 +11,7 @@ class InvestimentFactory {
       const investiment = new InvestimentTypes[type]();
       return investiment;
     } catch (error) {
-      throw new Error("Type of factory not found");
+      throw new InvalidFactory();
     }
   }
 }

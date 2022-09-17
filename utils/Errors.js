@@ -51,9 +51,18 @@ class InvalidPasswordKey extends CommonError {
   }
 }
 
+class InvalidFactory extends CommonError {
+  constructor() {
+    super("Type of factory not found");
+    this.name = "InvalidFactory";
+    this.status = 400;
+  }
+}
+
 module.exports = {
   UnauthorizedError,
   NotFoundError,
   ForbiddenError,
   InvalidPasswordKey,
+  InvalidFactory,
 };

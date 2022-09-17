@@ -29,6 +29,7 @@ class InvestimentController {
 
       return res.status(204).send();
     } catch (error) {
+      console.log("error!!", error);
       return next(error);
     }
   }

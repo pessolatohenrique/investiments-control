@@ -1,12 +1,12 @@
 const { validationResult } = require("express-validator");
 const { InvestimentFactory } = require("../factories");
-const { Author } = require("../models");
+const { Investiment } = require("../models");
 
 class InvestimentController {
   static async index(req, res, next) {
     try {
-      const authors = await Author.find().exec();
-      return res.status(200).json(authors);
+      const investiments = await Investiment.find().exec();
+      return res.status(200).json(investiments);
     } catch (error) {
       return next(error);
     }
@@ -27,7 +27,13 @@ class InvestimentController {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      return res.status(204).send();
+      const investiment = new Investiment({
+        ...req.body,
+        userId: req.user._id,
+      });
+      investiment.save((error) => console.log("error model", error));
+
+      return res.status(200).json(investiment);
     } catch (error) {
       return next(error);
     }
@@ -35,6 +41,8 @@ class InvestimentController {
 
   static async update(req, res, next) {
     try {
+      await InvestimentController.prepareValidation(req);
+
       const { id } = req.params;
 
       const errors = validationResult(req);
@@ -42,7 +50,7 @@ class InvestimentController {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      await Author.findOneAndUpdate({ _id: id }, req.body);
+      await Investiment.findOneAndUpdate({ _id: id }, req.body);
 
       return res.status(204).send();
     } catch (error) {
@@ -53,7 +61,7 @@ class InvestimentController {
   static async delete(req, res, next) {
     try {
       const { id } = req.params;
-      await Author.findByIdAndDelete(id);
+      await Investiment.findByIdAndDelete(id);
 
       return res.status(204).send();
     } catch (error) {

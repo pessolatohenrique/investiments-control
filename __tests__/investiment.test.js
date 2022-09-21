@@ -1,3 +1,4 @@
+const mockingoose = require("mockingoose");
 const { InvestimentFactory } = require("../factories");
 const { InvalidFactory } = require("../utils/Errors");
 const { Investiment } = require("../models");
@@ -34,5 +35,36 @@ describe("Investiment CRUD", () => {
     expect(fixedIncome).toHaveProperty("validate");
     expect(variableIncomeFunds).toHaveProperty("validate");
     expect(variableIncomeShares).toHaveProperty("validate");
+  });
+
+  test("it should return investiments list", async () => {
+    mockingoose(Investiment).toReturn(
+      [
+        {
+          description: "IPCA+ 2026",
+          type: "FIXED_INCOME",
+        },
+      ],
+      "find"
+    );
+    const results = await Investiment.find().exec();
+    expect(results[0].description).toBe("IPCA+ 2026");
+    expect(results[0].type).toBe("FIXED_INCOME");
+  });
+
+  test("it should save investiment", async () => {
+    const result = {
+      _id: "507f191e810c19729de860ea",
+      description: "IPCA+ 2026",
+      invested_amount: 3000,
+    };
+
+    mockingoose(Investiment).toReturn(result, "findOneAndUpdate");
+
+    return Investiment.findOneAndUpdate({ invested_amount: 2500 })
+      .where({ _id: "507f191e810c19729de860ea" })
+      .then((response) =>
+        expect(JSON.parse(JSON.stringify(response))).toMatchObject(result)
+      );
   });
 });

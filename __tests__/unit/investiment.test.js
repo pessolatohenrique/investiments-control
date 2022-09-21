@@ -1,7 +1,7 @@
 const mockingoose = require("mockingoose");
-const { InvestimentFactory } = require("../factories");
-const { InvalidFactory } = require("../utils/Errors");
-const { Investiment } = require("../models");
+const { InvestimentFactory } = require("../../factories");
+const { InvalidFactory } = require("../../utils/Errors");
+const { Investiment } = require("../../models");
 
 describe("Investiment CRUD", () => {
   test("it should create factory when type is valid", () => {

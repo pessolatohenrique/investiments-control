@@ -13,4 +13,26 @@ describe("Investiment CRUD", () => {
     const factory = new InvestimentFactory();
     expect(() => factory.create("INVALID_TYPE")).toThrow(InvalidFactory);
   });
+
+  test("it should call validate without errors", async () => {
+    const reqFake = { params: {} };
+    const factory = new InvestimentFactory();
+    const checkingAccount = factory.create("CHECKING_ACCOUNT");
+    const emergencyReserve = factory.create("EMERGENCY_RESERVE");
+    const fixedIncome = factory.create("FIXED_INCOME");
+    const variableIncomeFunds = factory.create("VARIABLE_INCOME_FUNDS");
+    const variableIncomeShares = factory.create("VARIABLE_INCOME_SHARES");
+
+    await checkingAccount.validate(reqFake);
+    await emergencyReserve.validate(reqFake);
+    await fixedIncome.validate(reqFake);
+    await variableIncomeFunds.validate(reqFake);
+    await variableIncomeShares.validate(reqFake);
+
+    expect(checkingAccount).toHaveProperty("validate");
+    expect(emergencyReserve).toHaveProperty("validate");
+    expect(fixedIncome).toHaveProperty("validate");
+    expect(variableIncomeFunds).toHaveProperty("validate");
+    expect(variableIncomeShares).toHaveProperty("validate");
+  });
 });

@@ -8,5 +8,4 @@ const allowList = redis.createClient({
   prefix: "allowlist-refresh-token:",
 });
 
-allowList.connect();
 module.exports = manipulateList(allowList);

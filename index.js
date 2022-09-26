@@ -8,10 +8,9 @@ const { strategies } = require("./auth/strategies");
 
 require("dotenv").config();
 
-app.listen(3000, () => {
-  console.log("Server Started");
-  console.log("Example from dotenv: ", process.env.DB_USER);
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(3000, () => console.log("Server Started"));
+}
 
 app.use(async (error, req, res, next) => {
   res.status(error.getStatusCode()).json(error);

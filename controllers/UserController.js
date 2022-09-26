@@ -15,7 +15,7 @@ class UserController {
       // res.set({ Authorization: token });
       return res.status(200).json({ accessToken: token, refreshToken });
     } catch (error) {
-      return res.status(500).json(error);
+      return next(error);
     }
   }
 

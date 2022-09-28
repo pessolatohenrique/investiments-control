@@ -5,6 +5,11 @@ const middlewares = require("../auth/middlewares");
 const router = Router();
 
 router.get("/investiment", [middlewares.bearer], InvestimentController.index);
+router.get(
+  "/investiment/:id",
+  [middlewares.bearer],
+  InvestimentController.show
+);
 router.post("/investiment", [middlewares.bearer], InvestimentController.store);
 router.put(
   "/investiment/:id",

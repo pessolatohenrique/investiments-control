@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const { InvestimentFactory } = require("../factories");
+const { NotFoundError } = require("../utils/Errors");
 const { Investiment } = require("../models");
 
 class InvestimentController {
@@ -39,6 +40,19 @@ class InvestimentController {
     }
   }
 
+  static async show(req, res, next) {
+    try {
+      const { id } = req.params;
+      const result = await Investiment.findById(id);
+
+      if (!result) throw new NotFoundError();
+
+      return res.status(200).json(result);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
   static async update(req, res, next) {
     try {
       await InvestimentController.prepareValidation(req);
@@ -54,6 +68,7 @@ class InvestimentController {
 
       return res.status(204).send();
     } catch (error) {
+      console.log("ERROR PUT", error);
       return next(error);
     }
   }

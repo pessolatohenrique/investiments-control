@@ -1,4 +1,3 @@
-const AuthorValidator = require("./AuthorValidator");
 const UserValidator = require("./UserValidator");
 const CheckingAccountValidator = require("./CheckingAccountValidator");
 const EmergencyReserveValidator = require("./EmergencyReserveValidator");
@@ -7,7 +6,6 @@ const VariableIncomeSharesValidator = require("./VariableIncomeSharesValidator")
 const VariableIncomeFundsValidator = require("./VariableIncomeFundsValidator");
 
 module.exports = {
-  AuthorValidator,
   UserValidator,
   CheckingAccountValidator,
   EmergencyReserveValidator,

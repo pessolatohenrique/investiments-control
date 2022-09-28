@@ -30,20 +30,4 @@ module.exports = {
       await allowList.delete(refreshToken);
     },
   },
-  forgotPassword: {
-    async create(id) {
-      const token = crypto.randomBytes(24).toString("hex");
-      const expires_at = moment().add("1", "h").unix();
-      await forgotList.insert(token, id, expires_at);
-      return token;
-    },
-    async search(token) {
-      const id = await forgotList.search(token);
-      await this.delete(token);
-      return id;
-    },
-    async delete(token) {
-      await forgotList.delete(token);
-    },
-  },
 };

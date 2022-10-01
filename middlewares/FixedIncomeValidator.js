@@ -2,6 +2,21 @@ const { check } = require("express-validator");
 
 // "Renda fixa - curto e médio prazo"
 class FixedIncomeValidator {
+  constructor(investiment) {
+    this.investiment = investiment;
+  }
+
+  calculate() {
+    const expected_profit = this.calculateExpectedProfit();
+    this.investiment = { ...this.investiment._doc, expected_profit };
+  }
+
+  calculateExpectedProfit() {
+    const { expected_net_value, invested_amount } = this.investiment;
+    const result = expected_net_value - invested_amount;
+    return result;
+  }
+
   async validate(req) {
     await check("type").notEmpty().run(req);
 

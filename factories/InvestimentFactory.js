@@ -6,9 +6,9 @@ const { InvalidFactory } = require("../utils/Errors");
  * @abstract
  */
 class InvestimentFactory {
-  create(type) {
+  create(type, resultFind = null) {
     try {
-      const investiment = new InvestimentTypes[type]();
+      const investiment = new InvestimentTypes[type](resultFind);
       return investiment;
     } catch (error) {
       throw new InvalidFactory();

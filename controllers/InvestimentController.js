@@ -2,12 +2,15 @@ const { validationResult } = require("express-validator");
 const { InvestimentFactory } = require("../factories");
 const { NotFoundError } = require("../utils/Errors");
 const { Investiment } = require("../models");
+const { InvestimentList } = require("../middlewares");
 
 class InvestimentController {
   static async index(req, res, next) {
     try {
       const investiments = await Investiment.find().exec();
-      return res.status(200).json(investiments);
+      const investimentList = new InvestimentList(investiments);
+      const result = await investimentList.mapExtraProperties();
+      return res.status(200).json(result);
     } catch (error) {
       return next(error);
     }
@@ -68,7 +71,6 @@ class InvestimentController {
 
       return res.status(204).send();
     } catch (error) {
-      console.log("ERROR PUT", error);
       return next(error);
     }
   }

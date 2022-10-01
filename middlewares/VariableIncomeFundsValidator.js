@@ -2,6 +2,10 @@ const { check } = require("express-validator");
 
 // "Renda variável - FIIs"
 class VariableIncomeFundsValidator {
+  constructor(investiment) {
+    this.investiment = investiment;
+  }
+
   async validate(req) {
     await check("type").notEmpty().run(req);
     if (!req.params.id) {

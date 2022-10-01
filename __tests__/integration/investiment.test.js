@@ -28,8 +28,28 @@ describe("Investiments CRUD", () => {
       .get("/investiment")
       .set("Authorization", `Bearer ${token}`);
 
+    const responseFixedIncome = [...response.body].find(
+      (item) => item.type === "FIXED_INCOME"
+    );
+
+    const responseEmergyReserve = [...response.body].find(
+      (item) => item.type === "EMERGENCY_RESERVE"
+    );
+
+    const checkingAccountResponse = [...response.body].find(
+      (item) => item.type === "CHECKING_ACCOUNT"
+    );
+
+    const variableIncomesResponse = [...response.body].find(
+      (item) => item.type === "VARIABLE_INCOME_SHARES"
+    );
+
     expect(response.status).toBe(200);
     expect(response.body.length).toBeGreaterThan(0);
+    expect(responseFixedIncome).toHaveProperty("expected_profit");
+    expect(responseEmergyReserve).toHaveProperty("profit");
+    expect(checkingAccountResponse).toHaveProperty("profit");
+    expect(variableIncomesResponse).toHaveProperty("expected_profit");
   });
 
   it("should detail specific category", async () => {

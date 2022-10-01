@@ -67,4 +67,42 @@ describe("Investiment CRUD", () => {
         expect(JSON.parse(JSON.stringify(response))).toMatchObject(result)
       );
   });
+
+  test("it should calculate investiments with expected_profit", async () => {
+    mockingoose(Investiment).toReturn(
+      {
+        description: "IPCA+ 2026",
+        type: "FIXED_INCOME",
+        invested_amount: 3000,
+        expected_net_value: 5000,
+      },
+      "findOne"
+    );
+
+    const resultFind = await Investiment.findOne().exec();
+    const factory = new InvestimentFactory();
+    const fixedIncome = factory.create("FIXED_INCOME", resultFind);
+    fixedIncome.calculate();
+
+    expect(fixedIncome.investiment).toHaveProperty("expected_profit");
+  });
+
+  test("it should calculate investiments with profit", async () => {
+    mockingoose(Investiment).toReturn(
+      {
+        description: "Selic",
+        type: "EMERGENCY_RESERVE",
+        invested_amount: 3000,
+        net_value: 3500,
+      },
+      "findOne"
+    );
+
+    const resultFind = await Investiment.findOne().exec();
+    const factory = new InvestimentFactory();
+    const fixedIncome = factory.create("EMERGENCY_RESERVE", resultFind);
+    fixedIncome.calculate();
+
+    expect(fixedIncome.investiment).toHaveProperty("profit");
+  });
 });

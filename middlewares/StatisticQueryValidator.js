@@ -1,11 +1,12 @@
 const { query } = require("express-validator");
 const {
   DREAM_TYPE_NAME,
-  INVESTED_AMOUNT,
+  PLATFORM,
+  TYPE,
+  CATEGORY,
 } = require("../enums/StatisticQueryTypes");
 
-const VALID_BY = [DREAM_TYPE_NAME];
-const VALID_SUM = [INVESTED_AMOUNT];
+const VALID_BY = [DREAM_TYPE_NAME, PLATFORM, TYPE, CATEGORY];
 
 class StatisticQueryValidator {
   static validate() {

@@ -12,7 +12,7 @@ describe("Investiments Statistic", () => {
 
   it("should group by dream type", async () => {
     const response = await request(app)
-      .get("/statistic/group?by=dream_type.name&sum=invested_amount")
+      .get("/statistic/group?by=dream_type.name")
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -28,7 +28,7 @@ describe("Investiments Statistic", () => {
 
   it("it should validate filter when queries is invalids", async () => {
     const response = await request(app)
-      .get("/statistic/group?by=abcd&sum=xyz")
+      .get("/statistic/group?by=abcd")
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(400);

@@ -6,6 +6,7 @@ const VariableIncomeSharesValidator = require("./VariableIncomeSharesValidator")
 const VariableIncomeFundsValidator = require("./VariableIncomeFundsValidator");
 const StatisticQueryValidator = require("./StatisticQueryValidator");
 const InvestimentList = require("./InvestimentList");
+const Statistic = require("./Statistic");
 
 module.exports = {
   UserValidator,
@@ -16,4 +17,5 @@ module.exports = {
   VariableIncomeFundsValidator,
   StatisticQueryValidator,
   InvestimentList,
+  Statistic,
 };

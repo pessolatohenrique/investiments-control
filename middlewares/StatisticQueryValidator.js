@@ -9,10 +9,7 @@ const VALID_SUM = [INVESTED_AMOUNT];
 
 class StatisticQueryValidator {
   static validate() {
-    return [
-      query("by").isString().isIn(VALID_BY).trim(),
-      query("sum").isString().isIn(VALID_SUM).trim(),
-    ];
+    return [query("by").isString().isIn(VALID_BY).trim()];
   }
 }
 

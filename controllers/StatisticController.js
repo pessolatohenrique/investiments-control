@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const { Statistic } = require("../middlewares");
 const { Investiment } = require("../models");
 const { QueryHelper } = require("../utils");
 
@@ -10,15 +11,28 @@ class InvestimentController {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const { by, sum } = req.query;
+      const { by } = req.query;
 
-      const result = await QueryHelper.groupAndSum({
+      const sumInvestedAmount = await QueryHelper.groupAndSum({
         model: Investiment,
         by,
-        sum,
+        sum: "invested_amount",
       });
 
-      return res.status(200).json(result);
+      const sumExpectedNetValue = await QueryHelper.groupAndSum({
+        model: Investiment,
+        by,
+        sum: "expected_net_value",
+      });
+
+      const statisticMap = new Statistic(
+        sumInvestedAmount,
+        sumExpectedNetValue
+      );
+
+      return res.status(200).json({
+        result: statisticMap.groupByDream(),
+      });
     } catch (error) {
       return next(error);
     }

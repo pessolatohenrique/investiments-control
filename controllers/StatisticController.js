@@ -2,6 +2,10 @@ const { validationResult } = require("express-validator");
 const { Statistic } = require("../middlewares");
 const { Investiment } = require("../models");
 const { QueryHelper } = require("../utils");
+const {
+  INVESTED_AMOUNT,
+  EXPECTED_NET_VALUE,
+} = require("../enums/StatisticQueryTypes");
 
 class InvestimentController {
   static async group(req, res, next) {
@@ -16,13 +20,13 @@ class InvestimentController {
       const sumInvestedAmount = await QueryHelper.groupAndSum({
         model: Investiment,
         by,
-        sum: "invested_amount",
+        sum: INVESTED_AMOUNT,
       });
 
       const sumExpectedNetValue = await QueryHelper.groupAndSum({
         model: Investiment,
         by,
-        sum: "expected_net_value",
+        sum: EXPECTED_NET_VALUE,
       });
 
       const statisticMap = new Statistic(

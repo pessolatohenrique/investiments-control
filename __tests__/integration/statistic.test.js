@@ -6,6 +6,7 @@ const {
   PLATFORM,
   TYPE,
   CATEGORY,
+  FINAL_DATE,
 } = require("../../enums/StatisticQueryTypes");
 
 let token = null;
@@ -43,6 +44,14 @@ describe("Investiments Statistic", () => {
   it("should group by category", async () => {
     const response = await request(app)
       .get(`/statistic/group?by=${CATEGORY}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+  });
+
+  it("should group by final_date", async () => {
+    const response = await request(app)
+      .get(`/statistic/group?by=${FINAL_DATE}`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(200);

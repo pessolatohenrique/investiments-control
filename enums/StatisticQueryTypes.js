@@ -5,4 +5,5 @@ module.exports = {
   EXPECTED_NET_VALUE: "expected_net_value",
   TYPE: "type",
   CATEGORY: "category",
+  FINAL_DATE: "final_date",
 };

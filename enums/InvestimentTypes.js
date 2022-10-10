@@ -1,8 +1,8 @@
-const CheckingAccount = require("../middlewares/CheckingAccount");
-const EmergencyReserve = require("../middlewares/EmergencyReserve");
-const FixedIncome = require("../middlewares/FixedIncome");
-const VariableIncomeShares = require("../middlewares/VariableIncomeShares");
-const VariableIncomeFunds = require("../middlewares/VariableIncomeFunds");
+const CheckingAccount = require("../business/CheckingAccount");
+const EmergencyReserve = require("../business/EmergencyReserve");
+const FixedIncome = require("../business/FixedIncome");
+const VariableIncomeShares = require("../business/VariableIncomeShares");
+const VariableIncomeFunds = require("../business/VariableIncomeFunds");
 
 module.exports = {
   CHECKING_ACCOUNT: CheckingAccount,

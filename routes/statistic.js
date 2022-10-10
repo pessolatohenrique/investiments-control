@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const StatisticController = require("../controllers/StatisticController");
-const { StatisticQueryValidator } = require("../middlewares");
+const { StatisticQueryValidator } = require("../business");
 const middlewares = require("../auth/middlewares");
 
 const router = Router();

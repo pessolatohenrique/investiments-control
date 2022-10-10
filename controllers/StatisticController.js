@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const { Statistic } = require("../middlewares");
+const { Statistic } = require("../business");
 const { Investiment } = require("../models");
 const { QueryHelper } = require("../utils");
 const {

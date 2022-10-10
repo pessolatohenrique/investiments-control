@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator");
 const { InvestimentFactory } = require("../factories");
 const { NotFoundError } = require("../utils/Errors");
 const { Investiment } = require("../models");
-const { InvestimentList } = require("../middlewares");
+const { InvestimentList } = require("../business");
 
 class InvestimentController {
   static async index(req, res, next) {

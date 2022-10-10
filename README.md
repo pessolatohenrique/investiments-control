@@ -24,6 +24,13 @@ Acesse a pasta do projeto e rode o comando para instalar as dependências npm:
 
 Criar arquivo .env e configurar as variáveis de ambiente, semelhantes ao arquivo ".env-example".
 
+Caso queira utilizar as funcionalidades que dependam do Kafka, execute o seguinte comando, com o Kafka previamente instalado:
+
+```
+  ./bin/zookeeper-server-start.sh config/zookeeper.properties
+  ./bin/kafka-server-start.sh config/server.properties
+```
+
 E, por fim, rode o projeto:
 
 ```

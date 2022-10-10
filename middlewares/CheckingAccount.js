@@ -2,7 +2,7 @@ const { check } = require("express-validator");
 const Profit = require("./Profit");
 
 // "Conta Corrente"
-class CheckingAccountValidator extends Profit {
+class CheckingAccount extends Profit {
   constructor(investiment) {
     super(investiment);
     this.investiment = investiment;
@@ -18,4 +18,4 @@ class CheckingAccountValidator extends Profit {
   }
 }
 
-module.exports = CheckingAccountValidator;
+module.exports = CheckingAccount;

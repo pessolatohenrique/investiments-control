@@ -1,8 +1,8 @@
 const { check } = require("express-validator");
-const ExpectedProfit = require("./ExpectedProfit");
+const Profit = require("./Profit");
 
-// "Renda fixa - curto e médio prazo"
-class FixedIncomeValidator extends ExpectedProfit {
+// "Reserva de emergência"
+class EmergencyReserve extends Profit {
   constructor(investiment) {
     super(investiment);
     this.investiment = investiment;
@@ -14,11 +14,9 @@ class FixedIncomeValidator extends ExpectedProfit {
     if (!req.params.id) {
       await check("description").notEmpty().run(req);
       await check("category").notEmpty().run(req);
-      await check("dream_type.name").notEmpty().run(req);
-      await check("dream_type.months").notEmpty().run(req);
       await check("platform").notEmpty().run(req);
+      await check("net_value").notEmpty().run(req);
       await check("indexer.name").notEmpty().run(req);
-      await check("indexer.contracted_rate").notEmpty().run(req);
       await check("final_date").notEmpty().run(req);
       await check("monthly_profitability").notEmpty().run(req);
       await check("invested_amount").notEmpty().run(req);
@@ -27,4 +25,4 @@ class FixedIncomeValidator extends ExpectedProfit {
   }
 }
 
-module.exports = FixedIncomeValidator;
+module.exports = EmergencyReserve;

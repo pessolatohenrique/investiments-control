@@ -1,8 +1,8 @@
 const { check } = require("express-validator");
-const Profit = require("./Profit");
+const ExpectedProfit = require("./ExpectedProfit");
 
-// "Reserva de emergência"
-class EmergencyReserveValidator extends Profit {
+// "Renda variável - ações"
+class VariableIncomeShares extends ExpectedProfit {
   constructor(investiment) {
     super(investiment);
     this.investiment = investiment;
@@ -14,15 +14,16 @@ class EmergencyReserveValidator extends Profit {
     if (!req.params.id) {
       await check("description").notEmpty().run(req);
       await check("category").notEmpty().run(req);
+      await check("dream_type.name").notEmpty().run(req);
+      await check("dream_type.months").notEmpty().run(req);
       await check("platform").notEmpty().run(req);
-      await check("net_value").notEmpty().run(req);
-      await check("indexer.name").notEmpty().run(req);
       await check("final_date").notEmpty().run(req);
-      await check("monthly_profitability").notEmpty().run(req);
+      await check("average_price").notEmpty().run(req);
+      // await check("monthly_profitability").notEmpty().run(req);
       await check("invested_amount").notEmpty().run(req);
       await check("expected_net_value").notEmpty().run(req);
     }
   }
 }
 
-module.exports = EmergencyReserveValidator;
+module.exports = VariableIncomeShares;

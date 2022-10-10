@@ -1,8 +1,8 @@
 const { check } = require("express-validator");
 const ExpectedProfit = require("./ExpectedProfit");
 
-// "Renda variável - ações"
-class VariableIncomeSharesValidator extends ExpectedProfit {
+// "Renda fixa - curto e médio prazo"
+class FixedIncome extends ExpectedProfit {
   constructor(investiment) {
     super(investiment);
     this.investiment = investiment;
@@ -17,13 +17,14 @@ class VariableIncomeSharesValidator extends ExpectedProfit {
       await check("dream_type.name").notEmpty().run(req);
       await check("dream_type.months").notEmpty().run(req);
       await check("platform").notEmpty().run(req);
+      await check("indexer.name").notEmpty().run(req);
+      await check("indexer.contracted_rate").notEmpty().run(req);
       await check("final_date").notEmpty().run(req);
-      await check("average_price").notEmpty().run(req);
-      // await check("monthly_profitability").notEmpty().run(req);
+      await check("monthly_profitability").notEmpty().run(req);
       await check("invested_amount").notEmpty().run(req);
       await check("expected_net_value").notEmpty().run(req);
     }
   }
 }
 
-module.exports = VariableIncomeSharesValidator;
+module.exports = FixedIncome;

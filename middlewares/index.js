@@ -1,20 +1,20 @@
 const UserValidator = require("./UserValidator");
-const CheckingAccountValidator = require("./CheckingAccountValidator");
-const EmergencyReserveValidator = require("./EmergencyReserveValidator");
-const FixedIncomeValidator = require("./FixedIncomeValidator");
-const VariableIncomeSharesValidator = require("./VariableIncomeSharesValidator");
-const VariableIncomeFundsValidator = require("./VariableIncomeFundsValidator");
+const CheckingAccount = require("./CheckingAccount");
+const EmergencyReserve = require("./EmergencyReserve");
+const FixedIncome = require("./FixedIncome");
+const VariableIncomeShares = require("./VariableIncomeShares");
+const VariableIncomeFunds = require("./VariableIncomeFunds");
 const StatisticQueryValidator = require("./StatisticQueryValidator");
 const InvestimentList = require("./InvestimentList");
 const Statistic = require("./Statistic");
 
 module.exports = {
   UserValidator,
-  CheckingAccountValidator,
-  EmergencyReserveValidator,
-  FixedIncomeValidator,
-  VariableIncomeSharesValidator,
-  VariableIncomeFundsValidator,
+  CheckingAccount,
+  EmergencyReserve,
+  FixedIncome,
+  VariableIncomeShares,
+  VariableIncomeFunds,
   StatisticQueryValidator,
   InvestimentList,
   Statistic,

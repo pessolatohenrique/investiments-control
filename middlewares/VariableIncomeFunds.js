@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 
 // "Renda variável - FIIs"
-class VariableIncomeFundsValidator {
+class VariableIncomeFunds {
   constructor(investiment) {
     this.investiment = investiment;
   }
@@ -18,4 +18,4 @@ class VariableIncomeFundsValidator {
   }
 }
 
-module.exports = VariableIncomeFundsValidator;
+module.exports = VariableIncomeFunds;

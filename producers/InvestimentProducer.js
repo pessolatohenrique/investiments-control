@@ -7,21 +7,25 @@ class InvestimentProducer {
   }
 
   sendStore = async () => {
-    const kafka = KafkaConnection.configure();
-    const producer = kafka.producer();
+    try {
+      const kafka = KafkaConnection.configure();
+      const producer = kafka.producer();
 
-    await producer.connect();
-    await producer.send({
-      topic: INVESTIMENT_NEW_STORE,
-      messages: [
-        {
-          key: Math.floor(Math.random() * 100000).toString(),
-          value: JSON.stringify({ ...this.investiment }),
-        },
-      ],
-    });
+      await producer.connect();
+      await producer.send({
+        topic: INVESTIMENT_NEW_STORE,
+        messages: [
+          {
+            key: Math.floor(Math.random() * 100000).toString(),
+            value: JSON.stringify({ ...this.investiment }),
+          },
+        ],
+      });
 
-    await producer.disconnect();
+      await producer.disconnect();
+    } catch (error) {
+      console.log("Error consuming Kafka: " + error);
+    }
   };
 }
 

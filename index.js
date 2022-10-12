@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const routes = require("./routes");
 
-const { DatabaseConnection, KafkaConfig } = require("./config");
+const { DatabaseConnection, KafkaConnection } = require("./config");
 // necessary to load strategies
 const { strategies } = require("./auth/strategies");
 
@@ -18,7 +18,7 @@ app.use(async (error, req, res, next) => {
 });
 
 DatabaseConnection.configure();
-KafkaConfig.configure();
+KafkaConnection.configure();
 routes(app);
 
 module.exports = app;

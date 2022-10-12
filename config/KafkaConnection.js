@@ -1,6 +1,6 @@
 const { Kafka } = require("kafkajs");
 
-class KafkaConfig {
+class KafkaConnection {
   static configure = () => {
     try {
       const kafka = new Kafka({
@@ -15,4 +15,4 @@ class KafkaConfig {
   };
 }
 
-module.exports = KafkaConfig;
+module.exports = KafkaConnection;

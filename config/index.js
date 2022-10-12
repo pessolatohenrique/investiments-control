@@ -1,7 +1,7 @@
 const DatabaseConnection = require("./database");
-const KafkaConfig = require("./KafkaConnection");
+const KafkaConnection = require("./KafkaConnection");
 
 module.exports = {
   DatabaseConnection,
-  KafkaConfig,
+  KafkaConnection,
 };

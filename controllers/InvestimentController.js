@@ -3,6 +3,7 @@ const { InvestimentFactory } = require("../factories");
 const { NotFoundError } = require("../utils/Errors");
 const { Investiment } = require("../models");
 const { InvestimentList } = require("../business");
+const { InvestimentProducer } = require("../producers");
 
 class InvestimentController {
   static async index(req, res, next) {
@@ -35,7 +36,9 @@ class InvestimentController {
         ...req.body,
         userId: req.user._id,
       });
-      investiment.save((error) => console.log("error model", error));
+      const investimentProducer = new InvestimentProducer(investiment);
+      await investiment.save();
+      await investimentProducer.sendStore();
 
       return res.status(200).json(investiment);
     } catch (error) {

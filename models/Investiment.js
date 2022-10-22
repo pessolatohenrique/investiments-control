@@ -14,6 +14,7 @@ const DreamTypeSchema = new mongoose.Schema({
 const InvestimentSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    goalId: { type: mongoose.Schema.Types.ObjectId, ref: "Goal" },
     type: { type: String },
     category: { type: String },
     description: { type: String },

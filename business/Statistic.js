@@ -9,7 +9,12 @@ class Statistic {
   groupByDream() {
     const investedAmountMaped = [...this.sumInvestedAmount].map((amount) => {
       const expectedNetValue = [...this.sumExpectedNetValue].find(
-        (netValue) => netValue._id === amount._id
+        (netValue) => {
+          if (typeof netValue._id !== "object") {
+            return netValue._id === amount._id;
+          }
+          return netValue._id.equals(amount._id);
+        }
       );
 
       const investimentFormatted = {

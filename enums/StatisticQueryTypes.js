@@ -6,4 +6,5 @@ module.exports = {
   TYPE: "type",
   CATEGORY: "category",
   FINAL_DATE: "final_date",
+  GOAL_ID: "goalId",
 };

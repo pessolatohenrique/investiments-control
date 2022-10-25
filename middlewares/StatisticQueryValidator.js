@@ -5,9 +5,17 @@ const {
   TYPE,
   CATEGORY,
   FINAL_DATE,
+  GOAL_ID,
 } = require("../enums/StatisticQueryTypes");
 
-const VALID_BY = [DREAM_TYPE_NAME, PLATFORM, TYPE, CATEGORY, FINAL_DATE];
+const VALID_BY = [
+  DREAM_TYPE_NAME,
+  PLATFORM,
+  TYPE,
+  CATEGORY,
+  FINAL_DATE,
+  GOAL_ID,
+];
 
 class StatisticQueryValidator {
   static validate() {

@@ -14,8 +14,6 @@ class VariableIncomeShares extends ExpectedProfit {
     if (!req.params.id) {
       await check("description").notEmpty().run(req);
       await check("category").notEmpty().run(req);
-      await check("dream_type.name").notEmpty().run(req);
-      await check("dream_type.months").notEmpty().run(req);
       await check("platform").notEmpty().run(req);
       await check("final_date").notEmpty().run(req);
       await check("average_price").notEmpty().run(req);

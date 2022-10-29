@@ -14,8 +14,6 @@ class FixedIncome extends ExpectedProfit {
     if (!req.params.id) {
       await check("description").notEmpty().run(req);
       await check("category").notEmpty().run(req);
-      await check("dream_type.name").notEmpty().run(req);
-      await check("dream_type.months").notEmpty().run(req);
       await check("platform").notEmpty().run(req);
       await check("indexer.name").notEmpty().run(req);
       await check("indexer.contracted_rate").notEmpty().run(req);

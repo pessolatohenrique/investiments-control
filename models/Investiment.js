@@ -6,11 +6,6 @@ const IndexerSchema = new mongoose.Schema({
   has_tax: { type: Boolean },
 });
 
-const DreamTypeSchema = new mongoose.Schema({
-  name: { type: String },
-  months: { type: Number },
-});
-
 const InvestimentSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -18,7 +13,6 @@ const InvestimentSchema = new mongoose.Schema(
     type: { type: String },
     category: { type: String },
     description: { type: String },
-    dream_type: DreamTypeSchema,
     indexer: IndexerSchema,
     platform: { type: String },
     net_value: { type: Number },

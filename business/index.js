@@ -7,6 +7,7 @@ const VariableIncomeFunds = require("./VariableIncomeFunds");
 const StatisticQueryValidator = require("../middlewares/StatisticQueryValidator");
 const InvestimentList = require("./InvestimentList");
 const Statistic = require("./Statistic");
+const GoalList = require("./GoalList");
 
 module.exports = {
   UserValidator,
@@ -18,4 +19,5 @@ module.exports = {
   StatisticQueryValidator,
   InvestimentList,
   Statistic,
+  GoalList,
 };

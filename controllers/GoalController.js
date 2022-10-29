@@ -1,11 +1,14 @@
 const { validationResult } = require("express-validator");
 const { NotFoundError } = require("../utils/Errors");
 const { Goal } = require("../models");
+const { GoalList } = require("../business");
 
 class GoalController {
   static async index(req, res, next) {
     try {
-      const result = await Goal.find().exec();
+      const goals = await Goal.find().exec();
+      const goalsList = new GoalList(goals);
+      const result = await goalsList.mapExtraProperties();
       return res.status(200).json(result);
     } catch (error) {
       return next(error);

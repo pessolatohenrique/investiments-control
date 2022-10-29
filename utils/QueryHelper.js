@@ -1,5 +1,7 @@
+const { ObjectId } = require("mongodb");
+
 class QueryHelper {
-  static async groupAndSum({ model, by, sum }) {
+  static async groupAndSum({ model, by, sum, userId }) {
     let groupQuery = {
       _id: `$${by}`,
       count: { $sum: `$${sum}` },
@@ -10,7 +12,10 @@ class QueryHelper {
     const result = await model
       .aggregate([
         {
-          $match: { [by]: { $ne: null } },
+          $match: {
+            [by]: { $ne: null },
+            userId: ObjectId(userId),
+          },
         },
         {
           $group: groupQuery,

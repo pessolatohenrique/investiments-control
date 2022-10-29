@@ -6,8 +6,10 @@ const { GoalList } = require("../business");
 class GoalController {
   static async index(req, res, next) {
     try {
-      const goals = await Goal.find().exec();
-      const goalsList = new GoalList(goals);
+      const goals = await Goal.find({
+        userId: req.user.id,
+      }).exec();
+      const goalsList = new GoalList(goals, req.user.id);
       const result = await goalsList.mapExtraProperties();
       return res.status(200).json(result);
     } catch (error) {

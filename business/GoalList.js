@@ -9,8 +9,9 @@ const {
 } = require("../enums/StatisticQueryTypes");
 
 class GoalList {
-  constructor(goals) {
+  constructor(goals, userId) {
     this.goals = goals;
+    this.userId = userId;
   }
 
   async mapExtraProperties() {
@@ -48,12 +49,14 @@ class GoalList {
       model: Investiment,
       by: GOAL_ID,
       sum: EXPECTED_NET_VALUE,
+      userId: this.userId,
     });
 
     const sumInvestedAmount = await QueryHelper.groupAndSum({
       model: Investiment,
       by: GOAL_ID,
       sum: INVESTED_AMOUNT,
+      userId: this.userId,
     });
 
     const statisticMap = new Statistic(sumInvestedAmount, sumExpectedNetValue);

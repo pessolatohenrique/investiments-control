@@ -8,7 +8,9 @@ const { InvestimentProducer } = require("../producers");
 class InvestimentController {
   static async index(req, res, next) {
     try {
-      const investiments = await Investiment.find().exec();
+      const investiments = await Investiment.find({
+        userId: req.user.id,
+      }).exec();
       const investimentList = new InvestimentList(investiments);
       const result = await investimentList.mapExtraProperties();
       return res.status(200).json(result);

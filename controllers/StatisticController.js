@@ -21,12 +21,14 @@ class InvestimentController {
         model: Investiment,
         by,
         sum: INVESTED_AMOUNT,
+        userId: req.user.id,
       });
 
       const sumExpectedNetValue = await QueryHelper.groupAndSum({
         model: Investiment,
         by,
         sum: EXPECTED_NET_VALUE,
+        userId: req.user.id,
       });
 
       const statisticMap = new Statistic(

@@ -2,7 +2,11 @@ const express = require("express");
 const app = express();
 const routes = require("./routes");
 
-const { DatabaseConnection, KafkaConnection } = require("./config");
+const {
+  DatabaseConnection,
+  KafkaConnection,
+  SwaggerConnection,
+} = require("./config");
 // necessary to load strategies
 const { strategies } = require("./auth/strategies");
 
@@ -17,8 +21,13 @@ app.use(async (error, req, res, next) => {
   return next();
 });
 
+// const swaggerUi = require("swagger-ui-express");
+// const swaggerDocument = require("./swagger.json");
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 DatabaseConnection.configure();
 KafkaConnection.configure();
+SwaggerConnection.configure(app);
 routes(app);
 
 module.exports = app;

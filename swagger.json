@@ -1,0 +1,784 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Investiments Control",
+    "description": "O objetivo deste projeto é realizar o controle de investimentos pessoais, contemplando a renda fixa e variável",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Login and generate token to an existing user",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Username and password to login",
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Token is generated"
+          },
+          "401": {
+            "description": "Invalid username or password / User does not exists"
+          }
+        }
+      }
+    },
+    "/refresh_token": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Updates token with refresh token",
+        "parameters": [
+          {
+            "name": "refreshtoken",
+            "in": "body",
+            "description": "Refresh Token got into login",
+            "schema": {
+              "$ref": "#/definitions/RefreshToken"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Token is generated"
+          },
+          "401": {
+            "description": "Invalid refresh token"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Store a new user",
+        "parameters": [
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/investiment": {
+      "get": {
+        "tags": ["Investiments"],
+        "summary": "Listagem de investimentos",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/InvestimentResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Investiments"],
+        "summary": "Insere um novo investimento. Vide descrição para regras",
+        "description": "<strong>CHECKING_ACCOUNT (conta corrente)</strong>: obrigatórios description, platform e net_value\n<strong>EMERGENCY_RESERVE (reserva de emergência)</strong>: obrigatórios description, category, platform, net_value, indexer.name, final_date, monthly_profitability, invested_amount, expected_net_value\n<strong>FIXED_INCOME (renda fixa)</strong>: obrigatórios description, category, platform, indexer.name, final_date, monthly_profitability, invested_amount, expected_net_value\n<strong>VARIABLE_INCOME_SHARES (ações)</strong>: obrigatórios description, category, platform, final_date, average_price, invested_amount, expected_net_value\n<strong>VARIABLE_INCOME_FUNDS (fundos imobiliários - FIIs)</strong>: obrigatórios description, category, platform, invested_amount, average_dividends",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/InvestimentRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/investiment/{id}": {
+      "get": {
+        "tags": ["Investiments"],
+        "summary": "Obtém detalhes de um investimento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do investimento",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/InvestimentResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Investiments"],
+        "summary": "Atualiza um investimento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do investimento",
+            "type": "string"
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/InvestimentRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/InvestimentResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Investiments"],
+        "summary": "Deleta um investimento",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do investimento",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/goal": {
+      "get": {
+        "tags": ["Goals"],
+        "summary": "Listagem de metas",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GoalResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Goals"],
+        "summary": "Insere uma nova meta",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/GoalRequest"
+            }
+          }
+        ]
+      }
+    },
+    "/goal/{id}": {
+      "put": {
+        "tags": ["Goals"],
+        "summary": "Atualiza uma meta",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da meta",
+            "type": "string"
+          },
+          {
+            "name": "Parameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/GoalRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GoalResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Goals"],
+        "summary": "Deleta uma meta",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da meta",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    },
+    "/statistic/groupby": {
+      "get": {
+        "tags": ["Statistics"],
+        "summary": "Obtém estatísticas relacionadas aos investimentos",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Use 'Bearer' prefix",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "name": "groupby",
+            "in": "query",
+            "description": "Atributo de pesquisa\nValores aceitos: dream_type.name, platform, invested_amount, expected_net_value, type, category, final_date"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/StatisticResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Internal Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "InvestimentResponse": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "ID do documento, via mongodb",
+          "example": "63261c283fc43a68b4890232"
+        },
+        "type": {
+          "type": "string",
+          "description": "Tipo de investimento, de acordo com enum",
+          "enum": [
+            "CHECKING_ACCOUNT",
+            "EMERGENCY_RESERVE",
+            "FIXED_INCOME",
+            "VARIABLE_INCOME_SHARES",
+            "VARIABLE_INCOME_FUNDS"
+          ]
+        },
+        "goalId": {
+          "type": "string",
+          "description": "ID da meta, com o padrão mongodb",
+          "example": "ObjectId('codegenerated1fac')"
+        },
+        "category": {
+          "type": "string",
+          "description": "Categoria do investimento",
+          "example": "CDB"
+        },
+        "description": {
+          "type": "string",
+          "description": "Descrição com o nome do investimento",
+          "example": "IPCA+ 2026"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Nome da corretora",
+          "example": "Clear"
+        },
+        "indexer": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Nome do indexador",
+              "example": "IPCA"
+            },
+            "contracted_rate": {
+              "type": "number",
+              "description": "Valor da taxa contratada",
+              "example": "5.64"
+            }
+          }
+        },
+        "final_date": {
+          "type": "string",
+          "description": "Data de vencimento, no formato YYYY-MM-DD",
+          "example": "2022-01-01"
+        },
+        "monthly_profitability": {
+          "type": "number",
+          "description": "Rentabilidade mensal",
+          "example": 0.95
+        },
+        "invested_amount": {
+          "type": "number",
+          "description": "Valor investido",
+          "example": 3000
+        },
+        "net_value": {
+          "type": "number",
+          "description": "Valor líquido",
+          "example": 3200
+        },
+        "expected_net_value": {
+          "type": "number",
+          "description": "Valor de lucro esperado",
+          "example": 3800
+        },
+        "average_price": {
+          "type": "number",
+          "description": "Média de preço, quando aplicável (exemplo: ações)",
+          "example": 50.75
+        },
+        "average_dividents": {
+          "type": "number",
+          "description": "Média de dividendos mensal, quando aplicável",
+          "example": 0.7
+        }
+      }
+    },
+    "InvestimentRequest": {
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Tipo de investimento, de acordo com enum",
+          "enum": [
+            "CHECKING_ACCOUNT",
+            "EMERGENCY_RESERVE",
+            "FIXED_INCOME",
+            "VARIABLE_INCOME_SHARES",
+            "VARIABLE_INCOME_FUNDS"
+          ]
+        },
+        "goalId": {
+          "type": "string",
+          "description": "ID da meta, com o padrão mongodb",
+          "example": "ObjectId('codegenerated1fac')"
+        },
+        "category": {
+          "type": "string",
+          "description": "Categoria do investimento",
+          "example": "CDB"
+        },
+        "description": {
+          "type": "string",
+          "description": "Descrição com o nome do investimento",
+          "example": "IPCA+ 2026"
+        },
+        "platform": {
+          "type": "string",
+          "description": "Nome da corretora",
+          "example": "Clear"
+        },
+        "indexer": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Nome do indexador",
+              "example": "IPCA"
+            },
+            "contracted_rate": {
+              "type": "number",
+              "description": "Valor da taxa contratada",
+              "example": "5.64"
+            }
+          }
+        },
+        "final_date": {
+          "type": "string",
+          "description": "Data de vencimento, no formato YYYY-MM-DD",
+          "example": "2022-01-01"
+        },
+        "monthly_profitability": {
+          "type": "number",
+          "description": "Rentabilidade mensal",
+          "example": 0.95
+        },
+        "invested_amount": {
+          "type": "number",
+          "description": "Valor investido",
+          "example": 3000
+        },
+        "net_value": {
+          "type": "number",
+          "description": "Valor líquido",
+          "example": 3200
+        },
+        "expected_net_value": {
+          "type": "number",
+          "description": "Valor de lucro esperado",
+          "example": 3800
+        },
+        "average_price": {
+          "type": "number",
+          "description": "Média de preço, quando aplicável (exemplo: ações)",
+          "example": 50.75
+        },
+        "average_dividents": {
+          "type": "number",
+          "description": "Média de dividendos mensal, quando aplicável",
+          "example": 0.7
+        }
+      }
+    },
+    "GoalResponse": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "ID do documento, via mongodb",
+          "example": "63261c283fc43a68b4890232"
+        },
+        "userId": {
+          "type": "string",
+          "description": "ID do usuário associado, via mongodb",
+          "example": "63261c283fc43a68b4890abc"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nome da meta",
+          "example": "Imóvel novo"
+        },
+        "total_value": {
+          "type": "number",
+          "description": "Valor total da meta",
+          "example": 400000
+        },
+        "initial_date": {
+          "type": "string",
+          "description": "Data inicial da meta",
+          "example": "2021-10-01T00:00:00.000Z"
+        },
+        "final_date": {
+          "type": "string",
+          "description": "Data final da meta",
+          "example": "2027-10-01T00:00:00.000Z"
+        },
+        "total_installments": {
+          "type": "number",
+          "description": "Total de meses para cumprir a meta",
+          "example": 70
+        },
+        "monthly_profitability": {
+          "type": "number",
+          "description": "Total de rentabilidade projetada no mês",
+          "example": 0.7
+        },
+        "invest_in_month": {
+          "type": "number",
+          "description": "Valor que deve ser investido mensalmente para alcançar a meta",
+          "example": 3000
+        },
+        "status": {
+          "type": "boolean",
+          "description": "Indicativo booleano se a meta está ativa",
+          "example": true
+        },
+        "actual_value": {
+          "type": "number",
+          "description": "Valor obtido atualmente, calculado com base nos investimentos",
+          "example": 15019
+        },
+        "actual_months": {
+          "type": "number",
+          "description": "Diferença entre data atual e data de início (initial_date)",
+          "example": 15
+        },
+        "remaining_months": {
+          "type": "number",
+          "description": "Diferença entre a data final (final_date) e data atual",
+          "example": 49
+        },
+        "actual_value_percentage": {
+          "type": "number",
+          "description": "Porcentagem atual, calculada com base nos investimentos realizados",
+          "example": 20
+        },
+        "expected_value_percentage": {
+          "type": "number",
+          "description": "Porcentagem esperada, com base no número de meses passados e nos investimentos realizados",
+          "example": 12
+        }
+      }
+    },
+    "GoalRequest": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Nome da meta",
+          "example": "Imóvel novo"
+        },
+        "total_value": {
+          "type": "number",
+          "description": "Valor total da meta",
+          "example": 400000
+        },
+        "initial_date": {
+          "type": "string",
+          "description": "Data inicial da meta",
+          "example": "2021-10-01T00:00:00.000Z"
+        },
+        "final_date": {
+          "type": "string",
+          "description": "Data final da meta",
+          "example": "2027-10-01T00:00:00.000Z"
+        },
+        "total_installments": {
+          "type": "number",
+          "description": "Total de meses para cumprir a meta",
+          "example": 70
+        },
+        "monthly_profitability": {
+          "type": "number",
+          "description": "Total de rentabilidade projetada no mês",
+          "example": 0.7
+        },
+        "invest_in_month": {
+          "type": "number",
+          "description": "Valor que deve ser investido mensalmente para alcançar a meta",
+          "example": 3000
+        },
+        "status": {
+          "type": "boolean",
+          "description": "Indicativo booleano se a meta está ativa",
+          "example": true
+        }
+      }
+    },
+    "StatisticResponse": {
+      "properties": {
+        "dream_name": {
+          "type": "string",
+          "description": "Valor de acordo com propriedade escolhida",
+          "example": "Clear"
+        },
+        "sum_expected_net_value": {
+          "type": "number",
+          "description": "Valor líquido total esperado",
+          "example": 23850
+        },
+        "sum_invested_amount": {
+          "type": "number",
+          "description": "Valor total investido",
+          "example": 15000
+        },
+        "expected_profit": {
+          "type": "number",
+          "description": "Lucro esperado",
+          "example": 8850
+        }
+      }
+    },
+    "Login": {
+      "required": ["username", "password"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "required": ["username", "email", "role", "password"],
+      "properties": {
+        "username": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "role": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "RefreshToken": {
+      "required": ["refreshToken"],
+      "properties": {
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

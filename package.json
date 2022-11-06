@@ -29,7 +29,8 @@
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "redis": "^3.0.2",
-    "kafkajs": "^2.1.0"
+    "kafkajs": "^2.1.0",
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "jest": "27.0.0",

@@ -9,6 +9,7 @@ O objetivo deste projeto é realizar o controle de investimentos pessoais, conte
 - Node.js (>= 14.0.0)
 - Express
 - Mongodb
+- Kafka
 
 ### Instalação do projeto (com o docker)
 
@@ -36,6 +37,13 @@ E, por fim, rode o projeto:
 ```
   npm start
 ```
+
+### Documentação por meio do Swagger
+
+Para visualizar os endpoints criados, acessar o caminho
+
+    /api-docs
+    Exemplo: http://localhost:3000/api-docs/
 
 ### Observações
 

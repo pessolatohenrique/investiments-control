@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const routes = require("./routes");
 
@@ -16,6 +17,7 @@ if (process.env.NODE_ENV !== "test") {
   app.listen(3000, () => console.log("Server Started"));
 }
 
+app.use(cors());
 app.use(async (error, req, res, next) => {
   res.status(error.getStatusCode()).json(error);
   return next();

@@ -90,6 +90,33 @@ class InvestimentController {
       return next(error);
     }
   }
+
+  static async redeemed(req, res, next) {
+    try {
+      const { id } = req.params;
+      const investiment = await Investiment.findByIdAndUpdate(id, {
+        has_redeemed: true,
+      });
+
+      return res.status(200).send(investiment);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async cancel(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const investiment = await Investiment.findByIdAndUpdate(id, {
+        has_redeemed: false,
+      });
+
+      return res.status(200).send(investiment);
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
 
 module.exports = InvestimentController;

@@ -21,5 +21,15 @@ router.delete(
   [middlewares.bearer],
   InvestimentController.delete
 );
+router.put(
+  "/investiment/:id/redeemed",
+  [middlewares.bearer],
+  InvestimentController.redeemed
+);
+router.put(
+  "/investiment/:id/cancel",
+  [middlewares.bearer],
+  InvestimentController.cancel
+);
 
 module.exports = router;

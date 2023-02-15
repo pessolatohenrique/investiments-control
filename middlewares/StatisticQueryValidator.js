@@ -6,6 +6,7 @@ const {
   CATEGORY,
   FINAL_DATE,
   GOAL_ID,
+  INDEXER_NAME,
 } = require("../enums/StatisticQueryTypes");
 
 const VALID_BY = [
@@ -15,6 +16,7 @@ const VALID_BY = [
   CATEGORY,
   FINAL_DATE,
   GOAL_ID,
+  INDEXER_NAME,
 ];
 
 class StatisticQueryValidator {

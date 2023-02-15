@@ -7,4 +7,5 @@ module.exports = {
   CATEGORY: "category",
   FINAL_DATE: "final_date",
   GOAL_ID: "goalId",
+  INDEXER_NAME: "indexer.name",
 };

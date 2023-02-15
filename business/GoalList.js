@@ -77,6 +77,8 @@ class GoalList {
     const finalDateMoment = moment(final_date);
     const initialDateMoment = moment();
     const differenceMonths = finalDateMoment.diff(initialDateMoment, "months");
+
+    if (differenceMonths < 0) return 0;
     return differenceMonths;
   }
 
@@ -90,6 +92,9 @@ class GoalList {
 
   calculateExpectedValuePercentage(goal, actual_months) {
     const { total_installments } = goal;
+    if (actual_months > total_installments) {
+      actual_months = total_installments;
+    }
     const result = (100 / total_installments) * actual_months;
     return result.toFixed(2);
   }

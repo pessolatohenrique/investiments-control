@@ -15,6 +15,7 @@ class QueryHelper {
           $match: {
             [by]: { $ne: null },
             userId: ObjectId(userId),
+            has_redeemed: { $ne: true },
           },
         },
         {

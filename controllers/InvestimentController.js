@@ -38,9 +38,9 @@ class InvestimentController {
         ...req.body,
         userId: req.user._id,
       });
-      const investimentProducer = new InvestimentProducer(investiment);
+      // const investimentProducer = new InvestimentProducer(investiment);
       await investiment.save();
-      await investimentProducer.sendStore();
+      // await investimentProducer.sendStore();
 
       return res.status(200).json(investiment);
     } catch (error) {

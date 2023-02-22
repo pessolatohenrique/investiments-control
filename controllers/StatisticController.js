@@ -43,6 +43,21 @@ class InvestimentController {
       return next(error);
     }
   }
+
+  static async summary(req, res, next) {
+    try {
+      const averageMonthProfitability = await QueryHelper.compileSingleResult({
+        model: Investiment,
+        operation: "avg",
+        by: "monthly_profitability",
+        userId: req.user.id,
+      });
+
+      return res.status(200).json({ averageMonthProfitability });
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
 
 module.exports = InvestimentController;

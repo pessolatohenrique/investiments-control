@@ -52,6 +52,29 @@ class QueryHelper {
 
     return result;
   }
+
+  static async compileSingleResult({ model, operation = "sum", by, userId }) {
+    let groupQuery = {
+      _id: null,
+      result: { [`$${operation}`]: `$${by}` },
+    };
+
+    const result = await model.aggregate(
+      [
+        {
+          $match: {
+            monthly_profitability: { $gt: 0 },
+            userId: ObjectId(userId),
+            has_redeemed: { $ne: true },
+          },
+        },
+        { $group: groupQuery },
+      ],
+      {}
+    );
+
+    return result;
+  }
 }
 
 module.exports = QueryHelper;

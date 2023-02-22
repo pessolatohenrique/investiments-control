@@ -11,4 +11,10 @@ router.get(
   StatisticController.group
 );
 
+router.get(
+  "/statistic/summary",
+  [middlewares.bearer],
+  StatisticController.summary
+);
+
 module.exports = router;

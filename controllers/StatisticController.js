@@ -53,7 +53,25 @@ class InvestimentController {
         userId: req.user.id,
       });
 
-      return res.status(200).json({ averageMonthProfitability });
+      const sumInvestedAmount = await QueryHelper.compileSingleResult({
+        model: Investiment,
+        operation: "sum",
+        by: "invested_amount",
+        userId: req.user.id,
+      });
+
+      const countInvestiments = await QueryHelper.compileSingleResult({
+        model: Investiment,
+        operation: "count",
+        by: "invested_amount",
+        userId: req.user.id,
+      });
+
+      return res.status(200).json({
+        average_month_profitability: averageMonthProfitability[0]?.result,
+        invested_amount: sumInvestedAmount[0]?.result,
+        count_investiments: countInvestiments[0]?.result,
+      });
     } catch (error) {
       return next(error);
     }

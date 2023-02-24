@@ -54,16 +54,25 @@ class QueryHelper {
   }
 
   static async compileSingleResult({ model, operation = "sum", by, userId }) {
+    const byQueryStr = by ? `$${by}` : {};
+
     let groupQuery = {
       _id: null,
-      result: { [`$${operation}`]: `$${by}` },
+      result: { [`$${operation}`]: byQueryStr },
     };
+
+    if (operation === "count") {
+      groupQuery = {
+        _id: null,
+        result: { $count: {} },
+      };
+    }
 
     const result = await model.aggregate(
       [
         {
           $match: {
-            monthly_profitability: { $gt: 0 },
+            [by]: { $gt: 0 },
             userId: ObjectId(userId),
             has_redeemed: { $ne: true },
           },

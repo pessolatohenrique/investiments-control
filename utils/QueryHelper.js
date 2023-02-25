@@ -54,7 +54,7 @@ class QueryHelper {
   }
 
   static async compileSingleResult({ model, operation = "sum", by, userId }) {
-    const byQueryStr = by ? `$${by}` : {};
+    const byQueryStr = `$${by}`;
 
     let groupQuery = {
       _id: null,

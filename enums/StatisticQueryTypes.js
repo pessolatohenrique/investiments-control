@@ -8,4 +8,5 @@ module.exports = {
   FINAL_DATE: "final_date",
   GOAL_ID: "goalId",
   INDEXER_NAME: "indexer.name",
+  MONTHLY_PROFITABILITY: "monthly_profitability",
 };

@@ -5,6 +5,7 @@ const { QueryHelper } = require("../utils");
 const {
   INVESTED_AMOUNT,
   EXPECTED_NET_VALUE,
+  MONTHLY_PROFITABILITY,
 } = require("../enums/StatisticQueryTypes");
 
 class InvestimentController {
@@ -49,21 +50,21 @@ class InvestimentController {
       const averageMonthProfitability = await QueryHelper.compileSingleResult({
         model: Investiment,
         operation: "avg",
-        by: "monthly_profitability",
+        by: MONTHLY_PROFITABILITY,
         userId: req.user.id,
       });
 
       const sumInvestedAmount = await QueryHelper.compileSingleResult({
         model: Investiment,
         operation: "sum",
-        by: "invested_amount",
+        by: INVESTED_AMOUNT,
         userId: req.user.id,
       });
 
       const countInvestiments = await QueryHelper.compileSingleResult({
         model: Investiment,
         operation: "count",
-        by: "invested_amount",
+        by: INVESTED_AMOUNT,
         userId: req.user.id,
       });
 

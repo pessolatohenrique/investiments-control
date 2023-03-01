@@ -12,6 +12,8 @@ class GoalList {
   constructor(goals, userId) {
     this.goals = goals;
     this.userId = userId;
+    this.sumExpectedNetValue = 0;
+    this.sumInvestedAmount = 0;
   }
 
   async mapExtraProperties() {
@@ -45,21 +47,24 @@ class GoalList {
   }
 
   async getGoalsGroupped() {
-    const sumExpectedNetValue = await QueryHelper.groupAndSum({
+    this.sumExpectedNetValue = await QueryHelper.groupAndSum({
       model: Investiment,
       by: GOAL_ID,
       sum: EXPECTED_NET_VALUE,
       userId: this.userId,
     });
 
-    const sumInvestedAmount = await QueryHelper.groupAndSum({
+    this.sumInvestedAmount = await QueryHelper.groupAndSum({
       model: Investiment,
       by: GOAL_ID,
       sum: INVESTED_AMOUNT,
       userId: this.userId,
     });
 
-    const statisticMap = new Statistic(sumInvestedAmount, sumExpectedNetValue);
+    const statisticMap = new Statistic(
+      this.sumInvestedAmount,
+      this.sumExpectedNetValue
+    );
 
     return statisticMap.groupByDream();
   }
@@ -92,6 +97,7 @@ class GoalList {
 
   calculateExpectedValuePercentage(goal, actual_months) {
     const { total_installments } = goal;
+
     if (actual_months > total_installments) {
       actual_months = total_installments;
     }

@@ -24,7 +24,7 @@ module.exports = {
       await tokenObject.refresh.delete(refreshToken);
       const user = await User.findOne({
         where: { id },
-      });
+      }).exec();
 
       req.user = user;
       return next();

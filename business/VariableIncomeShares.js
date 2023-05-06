@@ -17,7 +17,6 @@ class VariableIncomeShares extends ExpectedProfit {
       await check("platform").notEmpty().run(req);
       await check("final_date").notEmpty().run(req);
       await check("average_price").notEmpty().run(req);
-      // await check("monthly_profitability").notEmpty().run(req);
       await check("invested_amount").notEmpty().run(req);
       await check("expected_net_value").notEmpty().run(req);
     }

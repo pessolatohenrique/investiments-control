@@ -40,7 +40,7 @@ class GoalController {
   static async show(req, res, next) {
     try {
       const { id } = req.params;
-      const result = await Goal.findById(id);
+      const result = await Goal.findById(id).exec();
 
       if (!result) throw new NotFoundError();
 
@@ -59,7 +59,7 @@ class GoalController {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      await Goal.findOneAndUpdate({ _id: id }, req.body);
+      await Goal.findOneAndUpdate({ _id: id }, req.body).exec();
 
       return res.status(204).send();
     } catch (error) {
@@ -70,7 +70,7 @@ class GoalController {
   static async delete(req, res, next) {
     try {
       const { id } = req.params;
-      await Goal.findByIdAndDelete(id);
+      await Goal.findByIdAndDelete(id).exec();
 
       return res.status(204).send();
     } catch (error) {

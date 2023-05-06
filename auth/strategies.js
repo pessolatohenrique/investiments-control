@@ -9,7 +9,7 @@ passport.use(
   new LocalStrategy(async function (username, password, done) {
     const user = await User.findOne({
       where: { username },
-    });
+    }).exec();
 
     if (!user) {
       done("This user doesnt exists", null);
@@ -31,7 +31,7 @@ passport.use(
       const jwtObject = await jwt.verify(token, process.env.JWT_KEY);
       const user = await User.findOne({
         where: { id: jwtObject.id },
-      });
+      }).exec();
 
       return done(null, user);
     } catch (error) {

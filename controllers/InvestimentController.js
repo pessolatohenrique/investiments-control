@@ -51,7 +51,7 @@ class InvestimentController {
   static async show(req, res, next) {
     try {
       const { id } = req.params;
-      const result = await Investiment.findById(id);
+      const result = await Investiment.findById(id).exec();
 
       if (!result) throw new NotFoundError();
 
@@ -72,7 +72,7 @@ class InvestimentController {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      await Investiment.findOneAndUpdate({ _id: id }, req.body);
+      await Investiment.findOneAndUpdate({ _id: id }, req.body).exec();
 
       return res.status(204).send();
     } catch (error) {
@@ -83,7 +83,7 @@ class InvestimentController {
   static async delete(req, res, next) {
     try {
       const { id } = req.params;
-      await Investiment.findByIdAndDelete(id);
+      await Investiment.findByIdAndDelete(id).exec();
 
       return res.status(204).send();
     } catch (error) {
@@ -96,7 +96,7 @@ class InvestimentController {
       const { id } = req.params;
       const investiment = await Investiment.findByIdAndUpdate(id, {
         has_redeemed: true,
-      });
+      }).exec();
 
       return res.status(200).send(investiment);
     } catch (error) {
@@ -110,7 +110,7 @@ class InvestimentController {
 
       const investiment = await Investiment.findByIdAndUpdate(id, {
         has_redeemed: false,
-      });
+      }).exec();
 
       return res.status(200).send(investiment);
     } catch (error) {

@@ -1,4 +1,4 @@
-convertRouteToPermission = (route) => {
+const convertRouteToPermission = (route) => {
   const permissionSplit = route.split("/");
   const permissionName = permissionSplit[1].replace("/", "");
 

@@ -11,6 +11,12 @@ O objetivo deste projeto é realizar o controle de investimentos pessoais, conte
 - Mongodb
 - Kafka
 
+### Resultado do Sonarqube - análise estática e qualidade de código
+
+A imagem abaixo demonstra o resultado obtido via Sonarqube para o projeto
+
+![Resultado do Sonarqube](https://raw.githubusercontent.com/pessolatohenrique/investiments-control/main/resultsonar.png)
+
 ### Instalação do projeto (com o docker)
 
 Acesse a pasta do projeto e rode o comando:

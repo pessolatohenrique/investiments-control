@@ -105,4 +105,21 @@ describe("Investiment CRUD", () => {
 
     expect(fixedIncome.investiment).toHaveProperty("profit");
   });
+
+  test("it should find investiment by userId", async () => {
+    mockingoose(Investiment).toReturn(
+      {
+        description: "Selic",
+        type: "EMERGENCY_RESERVE",
+        invested_amount: 3000,
+        net_value: 3500,
+      },
+      "findByUserId"
+    );
+
+    const investiment = new Investiment();
+
+    const resultFind = await investiment.findByUserId({ userId: 1 });
+    expect(resultFind[0]).toHaveProperty("_id");
+  })
 });

@@ -26,4 +26,9 @@ const InvestimentSchema = new mongoose.Schema(
   },
   { collection: "investiments" }
 );
+
+InvestimentSchema.methods.findByUserId = function ({ userId }) {
+  return this.model('Investiment').find({ userId });
+};
+
 module.exports = mongoose.model("Investiment", InvestimentSchema);

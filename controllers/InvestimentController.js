@@ -4,13 +4,15 @@ const { NotFoundError } = require("../utils/Errors");
 const { Investiment } = require("../models");
 const { InvestimentList } = require("../business");
 const { InvestimentProducer } = require("../producers");
+const InvestimentCached = require("../business/InvestimentCached");
 
 class InvestimentController {
   static async index(req, res, next) {
     try {
-      const investiments = await Investiment.find({
-        userId: req.user.id,
-      }).exec();
+      // using Proxy Design Pattern
+      const investimentCached = new InvestimentCached({ userId: req.user.id });
+      const investiments = await investimentCached.findByUserId();
+
       const investimentList = new InvestimentList(investiments);
       const result = await investimentList.mapExtraProperties();
       return res.status(200).json(result);
@@ -34,15 +36,16 @@ class InvestimentController {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const investiment = new Investiment({
+      const investimentCached = new InvestimentCached({
         ...req.body,
         userId: req.user._id,
       });
+
       // const investimentProducer = new InvestimentProducer(investiment);
-      await investiment.save();
+      await investimentCached.save();
       // await investimentProducer.sendStore();
 
-      return res.status(200).json(investiment);
+      return res.status(200).json(investimentCached);
     } catch (error) {
       return next(error);
     }
@@ -72,7 +75,11 @@ class InvestimentController {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      await Investiment.findOneAndUpdate({ _id: id }, req.body).exec();
+      const investimentCached = new InvestimentCached({
+        userId: req.user._id,
+      })
+
+      await investimentCached.findOneAndUpdate({ id, body: req.body })
 
       return res.status(204).send();
     } catch (error) {
@@ -83,10 +90,16 @@ class InvestimentController {
   static async delete(req, res, next) {
     try {
       const { id } = req.params;
-      await Investiment.findByIdAndDelete(id).exec();
+
+      const investimentCached = new InvestimentCached({
+        userId: req.user._id,
+      })
+
+      await investimentCached.delete(id);
 
       return res.status(204).send();
     } catch (error) {
+      console.log("error???", error);
       return next(error);
     }
   }
@@ -94,11 +107,14 @@ class InvestimentController {
   static async redeemed(req, res, next) {
     try {
       const { id } = req.params;
-      const investiment = await Investiment.findByIdAndUpdate(id, {
-        has_redeemed: true,
-      }).exec();
 
-      return res.status(200).send(investiment);
+      const investimentCached = new InvestimentCached({
+        userId: req.user._id,
+      })
+
+      await investimentCached.redeemed(id);
+
+      return res.status(200).send(investimentCached);
     } catch (error) {
       return next(error);
     }
@@ -108,11 +124,13 @@ class InvestimentController {
     try {
       const { id } = req.params;
 
-      const investiment = await Investiment.findByIdAndUpdate(id, {
-        has_redeemed: false,
-      }).exec();
+      const investimentCached = new InvestimentCached({
+        userId: req.user._id,
+      })
 
-      return res.status(200).send(investiment);
+      await investimentCached.cancel(id);
+
+      return res.status(200).send(investimentCached);
     } catch (error) {
       return next(error);
     }
